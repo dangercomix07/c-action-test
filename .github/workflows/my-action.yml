@@ -1,9 +1,24 @@
-name : My Test Workflow
+name: My Test Workflow
 
 on: [push]
 
 jobs:
-    say-hello:
-        runs-on: ubuntu-latest
-        steps: 
-            - run: echo "Hello GitHub Actions!"
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello GitHub Actions!"
+
+  test-job:
+    needs: [say-hello]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt install -y build-essential python3
+
+      - run: pwd
+
+      - name: Run Test
+        run: python3 test.py
